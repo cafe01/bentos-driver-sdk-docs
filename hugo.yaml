@@ -1,4 +1,4 @@
-baseURL: https://bentos.dev/driver-sdk/
+baseURL: https://docs.bentos.life/
 languageCode: en
 title: "BentOS Driver SDK"
 theme: driver-sdk
