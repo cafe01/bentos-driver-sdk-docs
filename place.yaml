@@ -1,0 +1,11 @@
+name: Driver SDK Docs
+description: >-
+  Public-facing documentation website for the BentOS Driver SDK.
+  Hugo site served at docs.bentos.life. This is a PUBLIC place —
+  everything here, including agent memory, is visible to the world.
+  Inhabitants must exercise discipline: no credentials, no internal
+  strategy, no private context. What you write here, the world reads.
+owner: iris
+connections:
+  - ../../lib/bentos-driver-sdk-dart/
+  - ../../hq/warroom/c02-agent-habitat/q03-driver-sdk/
