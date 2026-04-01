@@ -20,5 +20,46 @@
       </footer>
     </div>
   </div>
+  <script>
+  (function() {
+    var btn = document.getElementById('theme-toggle');
+    var label = document.getElementById('theme-label');
+    var html = document.documentElement;
+
+    function isDark() {
+      return html.getAttribute('data-theme') === 'dark';
+    }
+
+    function updateLabel() {
+      if (label) label.textContent = isDark() ? 'Light' : 'Dark';
+    }
+
+    updateLabel();
+
+    if (btn) {
+      btn.addEventListener('click', function() {
+        if (isDark()) {
+          html.removeAttribute('data-theme');
+          localStorage.setItem('theme', 'light');
+        } else {
+          html.setAttribute('data-theme', 'dark');
+          localStorage.setItem('theme', 'dark');
+        }
+        updateLabel();
+      });
+    }
+
+    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', function(e) {
+      if (!localStorage.getItem('theme')) {
+        if (e.matches) {
+          html.setAttribute('data-theme', 'dark');
+        } else {
+          html.removeAttribute('data-theme');
+        }
+        updateLabel();
+      }
+    });
+  })();
+  </script>
 </body>
 </html>
