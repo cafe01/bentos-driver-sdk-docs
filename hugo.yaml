@@ -1,0 +1,46 @@
+baseURL: https://bentos.dev/driver-sdk/
+languageCode: en
+title: "BentOS Driver SDK"
+theme: driver-sdk
+
+pagination:
+  pagerSize: 20
+
+params:
+  description: "Build device drivers for BentOS — the operating system for AI agents"
+  author: "BentOS Team"
+  repo: "https://github.com/anthropics/bentos-driver-sdk"
+
+menus:
+  main:
+    - name: "Getting Started"
+      pageRef: "/getting-started"
+      weight: 10
+    - name: "Concepts"
+      pageRef: "/concepts"
+      weight: 20
+    - name: "Patterns"
+      pageRef: "/patterns"
+      weight: 30
+    - name: "Tutorials"
+      pageRef: "/tutorials"
+      weight: 40
+    - name: "Reference"
+      pageRef: "/reference"
+      weight: 50
+
+markup:
+  goldmark:
+    renderer:
+      unsafe: true
+  highlight:
+    style: monokai
+    lineNos: false
+    guessSyntax: true
+  tableOfContents:
+    startLevel: 2
+    endLevel: 4
+
+outputs:
+  home:
+    - HTML

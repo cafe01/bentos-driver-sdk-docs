@@ -1,0 +1,24 @@
+{{ define "main" }}
+<div class="home">
+  <div class="hero">
+    <h1>{{ .Title }}</h1>
+    <p class="hero-sub">{{ .Description }}</p>
+  </div>
+
+  <div class="home-content">
+    {{ .Content }}
+  </div>
+
+  <div class="home-grid">
+    {{ range site.Menus.main }}
+      {{ $page := site.GetPage .PageRef }}
+      {{ if $page }}
+      <a href="{{ .URL }}" class="home-card">
+        <h3>{{ .Name }}</h3>
+        <p>{{ $page.Description }}</p>
+      </a>
+      {{ end }}
+    {{ end }}
+  </div>
+</div>
+{{ end }}

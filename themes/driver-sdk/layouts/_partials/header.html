@@ -1,0 +1,15 @@
+<div class="header-inner">
+  <div class="breadcrumbs">
+    {{ if not .IsHome }}
+      <a href="{{ "/" | relURL }}">Docs</a>
+      {{ range .Ancestors.Reverse }}
+        {{ if not .IsHome }}
+          <span class="sep">/</span>
+          <a href="{{ .RelPermalink }}">{{ .Title }}</a>
+        {{ end }}
+      {{ end }}
+      <span class="sep">/</span>
+      <span class="current">{{ .Title }}</span>
+    {{ end }}
+  </div>
+</div>

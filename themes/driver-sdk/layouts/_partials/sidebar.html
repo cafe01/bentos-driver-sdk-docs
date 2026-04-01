@@ -1,0 +1,20 @@
+<div class="sidebar-inner">
+  <a href="{{ "/" | relURL }}" class="sidebar-brand">
+    <strong>BentOS</strong> Driver SDK
+  </a>
+
+  <nav class="sidebar-nav">
+    {{ range site.Menus.main }}
+      {{ $section := site.GetPage .PageRef }}
+      {{ $isActive := or (eq $.Page.Section (strings.TrimPrefix "/" .PageRef)) (eq $.Page.RelPermalink (printf "%s/" (strings.TrimSuffix "/" .PageRef))) }}
+      <div class="nav-section {{ if $isActive }}active{{ end }}">
+        <a href="{{ .URL }}" class="nav-section-title {{ if $isActive }}active{{ end }}">{{ .Name }}</a>
+        {{ if and $section $isActive }}
+          {{ range $section.Pages }}
+            <a href="{{ .RelPermalink }}" class="nav-item {{ if eq $.Page.RelPermalink .RelPermalink }}current{{ end }}">{{ .Title }}</a>
+          {{ end }}
+        {{ end }}
+      </div>
+    {{ end }}
+  </nav>
+</div>
