@@ -45,13 +45,20 @@ Every driver implements an ops contract -- a set of callbacks that define the dr
 | Callback | Required | Signature | Description |
 |---|---|---|---|
 | `defaultConfig` | **yes** | `() -> C` | Default configuration for new sessions. |
-| `process` | **yes** | `(I input, C config, {S? session}) -> Stream<O>` | Core operation. Takes input + config, yields output chunks. |
-| `encodeOutput` | **yes** | `(O chunk, {C config}) -> Uint8List` | Serialize one output chunk for `read()`. |
-| `decodeInput` | **yes** | `(Uint8List data, {C config}) -> I` | Deserialize `write()` bytes into domain input. |
+| `process` | **yes** | `(I input, C config, {S? session}) -> Stream<O>` | Core operation. Takes current-cycle input + config, yields output chunks. |
+| `encodeOutput` | no* | `(O chunk, {C config}) -> Uint8List` | Serialize one output chunk for `read()`. |
+| `decodeInput` | no* | `(Uint8List data, {C config}) -> I` | Deserialize current-cycle write bytes into domain input. |
+| `onQuery` | no | `(int cmd, {S session}) -> FutureOr<Uint8List>` | Route a read-direction ioctl to the driver. Available in any state. |
 | `onCancel` | no | `({S? session}) -> void` | Abort in-flight processing (called on DROP ioctl). |
 | `onDrain` | no | `({S? session}) -> void` | Graceful completion hook. |
 | `onSessionStart` | no | `() -> S` | Allocate per-session state. |
 | `onSessionEnd` | no | `({S? session}) -> void` | Release per-session state. |
+
+\* Required unless the subsystem layer provides a canonical default. If null at call time with no subsystem default, the framework returns ENOSYS.
+
+**`onQuery`**: Handles read-direction ioctls — commands that query state rather than mutate config. The config codec handles write-direction ioctls first; any command the codec does not recognize falls through to `onQuery`. Not phase-gated: callable in any state.
+
+**`decodeInput` / `process` receive current-cycle input only.** Each `write()` accumulates into the cycle buffer; `flush()` or `read()` triggers processing and clears it. Cross-cycle state is caller-managed — the driver does not accumulate history across cycles. See [P4: Configured Stream](/patterns/configured-stream/#decodeInput-and-multi-turn-write-semantics) for details.
 
 ### ConfigCodec (required for P4)
 
